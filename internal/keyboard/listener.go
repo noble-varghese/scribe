@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/go-vgo/robotgo"
-	"github.com/noble-varghese/expandr/internal/logger"
-	"github.com/noble-varghese/expandr/internal/types"
+	"github.com/noble-varghese/scribe/internal/logger"
+	"github.com/noble-varghese/scribe/internal/types"
 	hook "github.com/robotn/gohook"
 )
 
@@ -95,7 +95,7 @@ func (l *Listener) processKeypress(key string) {
 		}
 		l.expander.TypeExpansion(expanded)
 		l.buffer = l.buffer[:len(l.buffer)-backspaceLen]
-	}	
+	}
 }
 
 func (l *Listener) removeLastChar() {

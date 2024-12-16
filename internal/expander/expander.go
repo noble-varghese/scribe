@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/noble-varghese/expandr/internal/config"
-	"github.com/noble-varghese/expandr/internal/typing"
+	"github.com/noble-varghese/scribe/internal/config"
+	"github.com/noble-varghese/scribe/internal/typing"
 )
 
 type Expander struct {

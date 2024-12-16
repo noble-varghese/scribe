@@ -5,11 +5,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/noble-varghese/expandr/internal/config"
-	"github.com/noble-varghese/expandr/internal/expander"
-	"github.com/noble-varghese/expandr/internal/keyboard"
-	"github.com/noble-varghese/expandr/internal/logger"
-)	
+	"github.com/noble-varghese/scribe/internal/config"
+	"github.com/noble-varghese/scribe/internal/expander"
+	"github.com/noble-varghese/scribe/internal/keyboard"
+	"github.com/noble-varghese/scribe/internal/logger"
+)
 
 func main() {
 	logger.Info("Starting Text Expander...")

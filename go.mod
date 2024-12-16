@@ -1,4 +1,4 @@
-module github.com/noble-varghese/expandr
+module github.com/noble-varghese/scribe
 
 go 1.22.0
 

@@ -40,7 +40,6 @@ brews:
     repository:
       owner: noble-varghese
       name: homebrew-scribe
-    folder: Formula
     homepage: "https://github.com/noble-varghese/scribe"
     description: "A fast and flexible text expander"
     license: "MIT"

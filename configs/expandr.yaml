@@ -1,0 +1,15 @@
+expansions:
+  "!email": "john.snow@gmail.com"
+  "!addr": |
+    123 Maple Avenue
+    Suite 405
+    Brooklyn, NY 11201
+    United States
+  "!sig": |
+    Best regards,
+    Sarah Chen
+    Senior Product Manager
+    
+  "!date": "{{.Utc_Now}}"
+  "!espanso": Hi there!
+  "!intro": "Hello World!"

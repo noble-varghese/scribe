@@ -1,8 +1,12 @@
+# .goreleaser.yaml
 version: 2
+
 project_name: scribe
+
 before:
   hooks:
     - go mod tidy
+
 builds:
   - id: scribe
     env:
@@ -33,11 +37,17 @@ archives:
 
 brews:
   - name: scribe
-    tap:
-      owner: noble-varghese 
-      name: homebrew-scribe     
+    repository:
+      owner: noble-varghese
+      name: homebrew-scribe
+    folder: Formula
     homepage: "https://github.com/noble-varghese/scribe"
     description: "A fast and flexible text expander"
     license: "MIT"
     install: |
       bin.install "scribe"
+    test: |
+      system "#{bin}/scribe", "--version"
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com

@@ -1,0 +1,39 @@
+project_name: scribe
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/expandr/main.go
+    binary: expandr
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+    format_overrides:
+      - goos: windows
+        format: zip
+
+brews:
+  - name: scribe
+    tap:
+      owner: noble-varghese 
+      name: homebrew-scribe     
+    homepage: "https://github.com/noble-varghese/scribe"
+    description: "A fast and flexible text expander"
+    license: "MIT"
+    install: |
+      bin.install "scribe"

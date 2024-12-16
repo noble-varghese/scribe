@@ -11,5 +11,7 @@ expansions:
     Senior Product Manager
     
   "!date": "{{.Utc_Now}}"
+  "!month": "{{.Month}}"
   "!espanso": Hi there!
   "!intro": "Hello World!"
+  "!profile": https://github.com/noble-varghese?tab=repositories

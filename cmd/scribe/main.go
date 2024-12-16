@@ -15,7 +15,7 @@ func main() {
 	logger.Info("Starting Text Expander...")
 
 	// Load the configs
-	cfg, err := config.Load("configs/expandr.yaml") // TODO: Convert this to a configurable location or constant.
+	cfg, err := config.Load("configs/scribe.yaml") // TODO: Convert this to a configurable location or constant.
 	if err != nil {
 		logger.Fatal("Failed to load config %v", err)
 	}

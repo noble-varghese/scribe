@@ -11,8 +11,8 @@ builds:
     goarch:
       - amd64
       - arm64
-    main: ./cmd/expandr/main.go
-    binary: expandr
+    main: ./cmd/scribe/main.go
+    binary: scribe
     ldflags:
       - -s -w -X main.version={{.Version}}
 

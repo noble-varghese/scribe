@@ -7,7 +7,7 @@ before:
     - go mod tidy
 
 builds:
-  - id: scribe
+  - id: scribe-darwin
     env:
       - CGO_ENABLED=1
     main: ./cmd/scribe/main.go
@@ -15,14 +15,36 @@ builds:
     ldflags:
       - -s -w -X main.version={{.Version}}
     goos:
-      - '{{ if eq .Env.GOOS "darwin" }}darwin{{ else }}linux{{ end }}'
+      - darwin
     goarch:
-      - '{{ if eq .Env.GOOS "darwin" }}arm64{{ else }}amd64{{ end }}'
-      - '{{ if eq .Env.GOOS "darwin" }}amd64{{ end }}'
+      - amd64
+      - arm64
     hooks:
       post:
-        - cmd: /bin/sh -c 'if [ "{{.Os}}" = "darwin" ]; then codesign -s - "{{ .Path }}"; fi'
+        - cmd: /bin/sh -c 'codesign -s - "{{ .Path }}"'
           output: true
+    ignore:
+      - goos: darwin
+        goarch: amd64
+        goos: darwin
+        goarch: arm64
+        condition: '{{ ne .Env.GOOS "darwin" }}'
+
+  - id: scribe-linux
+    env:
+      - CGO_ENABLED=1
+    main: ./cmd/scribe/main.go
+    binary: scribe
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    goos:
+      - linux
+    goarch:
+      - amd64
+    ignore:
+      - goos: linux
+        goarch: amd64
+        condition: '{{ ne .Env.GOOS "linux" }}'
 
 archives:
   - format: tar.gz

@@ -1,0 +1,56 @@
+version: 2
+
+project_name: scribe
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: scribe
+    env:
+      - CGO_ENABLED=1
+    main: ./cmd/scribe/main.go
+    binary: scribe
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64{{ else }}{{ .Arch }}{{ end }}
+    files:
+      - README.md
+      - LICENSE
+
+brews:
+  - name: scribe
+    repository:
+      owner: noble-varghese
+      name: homebrew-scribe
+    homepage: "https://github.com/noble-varghese/scribe"
+    description: "A fast and flexible text expander"
+    license: "MIT"
+    url_template: "https://github.com/noble-varghese/scribe/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    download_strategy: CurlDownloadStrategy
+    install: |
+      bin.install "scribe"
+    test: |
+      system "#{bin}/scribe", "--version"
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^Merge pull request'

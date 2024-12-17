@@ -46,6 +46,9 @@ brews:
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
+    # Add platform support
+    depends_on arch: ["x86_64", "arm64"]  # Support both Intel and ARM
+    depends_on macos: ">=11.0"  # For newer macOS support
 
 changelog:
   sort: asc

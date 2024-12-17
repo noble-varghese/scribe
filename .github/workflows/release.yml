@@ -10,10 +10,7 @@ permissions:
 
 jobs:
   goreleaser:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,31 +20,29 @@ jobs:
         with:
           go-version: '>=1.21.0'
       
-      - name: Install Linux dependencies
-        if: matrix.os == 'ubuntu-latest'
+      # Install all required dependencies
+      - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc libx11-dev xorg-dev libxtst-dev libpng++-dev
-          sudo apt-get install -y xcb libxcb-xkb-dev x11-xkb-utils libx11-xcb-dev
-          sudo apt-get install -y libxkbcommon-x11-dev libxkbcommon-dev
-          sudo apt-get install -y xsel xclip
-      
-      - name: Install macOS dependencies
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install libx11 libxtst libpng gcc
-          brew install pkg-config
-      
+          brew install libx11 libxtst libpng gcc pkg-config cmake
+          brew install automake libtool
+          
+      # Set required environment variables
       - name: Set up environment
         run: |
           echo "CGO_ENABLED=1" >> $GITHUB_ENV
-          if [ "${{ matrix.os }}" = "macos-latest" ]; then
-            echo "PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig" >> $GITHUB_ENV
-          fi
+          echo "PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:/usr/local/lib/pkgconfig" >> $GITHUB_ENV
+          echo "PATH=/usr/local/opt/gcc/bin:$PATH" >> $GITHUB_ENV
+          
+      # Explicitly build and install dependencies
+      - name: Build Dependencies
+        run: |
+          go mod download
+          cd $(go env GOPATH)/pkg/mod/github.com/go-vgo/robotgo@v0.110.5
+          go install
+          cd $(go env GOPATH)/pkg/mod/github.com/robotn/gohook@v0.41.0
+          go install
       
-      # Only run goreleaser for the final build on macOS
       - uses: goreleaser/goreleaser-action@v4
-        if: matrix.os == 'macos-latest'
         with:
           distribution: goreleaser
           version: latest

@@ -14,6 +14,18 @@ builds:
     binary: scribe
     ldflags:
       - -s -w -X main.version={{.Version}}
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -tags=production
+    hooks:
+      post:
+        - cmd: /bin/sh -c 'if [ "{{.Os}}" = "darwin" ]; then codesign -s - "{{ .Path }}"; fi'
+          output: true
 
 archives:
   - format: tar.gz

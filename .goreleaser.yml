@@ -15,12 +15,13 @@ builds:
     ldflags:
       - -s -w -X main.version={{.Version}}
     goos:
-      - linux
+      - darwin
     goarch:
       - amd64
+      - arm64
     hooks:
       post:
-        - cmd: /bin/sh -c 'if [ "{{.Os}}" = "darwin" ]; then codesign -s - "{{ .Path }}"; fi'
+        - cmd: codesign -s - "{{ .Path }}"
           output: true
 
 archives:

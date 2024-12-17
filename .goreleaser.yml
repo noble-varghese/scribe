@@ -1,4 +1,3 @@
-# .goreleaser.yaml
 version: 2
 
 project_name: scribe
@@ -8,29 +7,13 @@ before:
     - go mod tidy
 
 builds:
-  - id: scribe-linux
-    env:
+  - env:
       - CGO_ENABLED=1
-    goos:
-      - linux
-    goarch:
-      - amd64
     main: ./cmd/scribe/main.go
     binary: scribe
     ldflags:
       - -s -w -X main.version={{.Version}}
-
-  - id: scribe-darwin
-    env:
-      - CGO_ENABLED=1
-    goos:
-      - darwin
-    goarch:
-      - arm64
-    main: ./cmd/scribe/main.go
-    binary: scribe
-    ldflags:
-      - -s -w -X main.version={{.Version}}
+    # No goos/goarch specified - will use environment variables
 
 archives:
   - format: tar.gz
@@ -49,15 +32,7 @@ brews:
       name: homebrew-scribe
     homepage: "https://github.com/noble-varghese/scribe"
     description: "A fast and flexible text expander"
-    url_template: "https://github.com/noble-varghese/scribe/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    download_strategy: CurlDownloadStrategy
     license: "MIT"
-    dependencies:
-      - name: xorg-server
-      - name: libx11
-      - name: libxtst
-      - name: libpng
-      - name: gcc
     install: |
       bin.install "scribe"
     test: |

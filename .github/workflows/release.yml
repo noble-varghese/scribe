@@ -34,7 +34,7 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --clean --config .goreleaser.darwin.yml --skip-publish
+          args: release --clean --config .goreleaser.darwin.yml --skip-publish-github
         env:
           GITHUB_TOKEN: ${{ secrets.GORELEASER_TOKEN }}
       

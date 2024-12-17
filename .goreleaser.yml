@@ -11,16 +11,9 @@ builds:
     env:
       - CGO_ENABLED=1
     goos:
-      - darwin
       - linux
     goarch:
       - amd64
-      - arm64
-    ignore:
-      - goos: linux
-        goarch: arm64
-      - goos: darwin
-        goarch: amd64
     main: ./cmd/scribe/main.go
     binary: scribe
     ldflags:

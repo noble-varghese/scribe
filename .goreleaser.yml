@@ -37,6 +37,8 @@ brews:
     homepage: "https://github.com/noble-varghese/scribe"
     description: "A fast and flexible text expander"
     license: "MIT"
+    url_template: "https://github.com/noble-varghese/scribe/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    download_strategy: CurlDownloadStrategy
     install: |
       bin.install "scribe"
     test: |

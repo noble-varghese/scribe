@@ -28,7 +28,6 @@ func NewListener(exp types.Expander) *Listener {
 }
 
 func (l *Listener) Start() error {
-	logger.Info("Starting keyboard listener...")
 	l.running = true
 
 	// Start listening for events
@@ -71,12 +70,10 @@ func (l *Listener) Start() error {
 		}
 	}()
 
-	logger.Info("Keyboard hook registered and listening...")
 	return nil
 }
 
 func (l *Listener) Stop() error {
-	logger.Info("Stopping keyboard listener...")
 	l.running = false
 	close(l.stopChan)
 	return nil

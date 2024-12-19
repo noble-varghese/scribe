@@ -1,0 +1,14 @@
+# Scribe Configuration File
+# Add your configuration here
+
+expansions:
+  "!email": "john.snow@gmail.com"
+  "!addr": |
+    123 Maple Avenue
+    Suite 405
+    Brooklyn, NY 11201
+    United States
+  
+  "!date": "{{.Utc_Now}}"
+  "!month": "{{.Month}}"
+  "!intro": "Hello World!"

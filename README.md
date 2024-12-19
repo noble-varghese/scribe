@@ -7,8 +7,9 @@ A fast and flexible text expander for macOS. Scribe helps you create and use cus
 - Fast text expansion
 - Support for both Intel and Apple Silicon Macs
 - Simple snippet management
-- Custom delay configuration
 - Lightweight and efficient
+- Daemon management for background operation
+- Easy configuration editing
 
 ## Installation
 
@@ -31,15 +32,28 @@ brew install scribe
 ## Usage
 
 ```bash
-# Start scribe
-scribe
+# Start scribe in background
+scribe start
 
-# Check version
-scribe --version
+# Stop scribe
+scribe stop
 
-# Get help
-scribe --help
+# Restart scribe
+scribe restart
+
+# Check scribe status
+scribe status
+
+# Edit configuration
+scribe config
 ```
+
+### Configuration
+
+When you run `scribe config` for the first time, it will:
+1. Create a configuration file at `~/.config/scribe/config.yaml`
+2. Populate it with default settings
+3. Open it in your default terminal editor (defined by $EDITOR) or just run `scribe config`
 
 ## Requirements
 

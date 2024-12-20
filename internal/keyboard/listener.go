@@ -84,9 +84,10 @@ func (l *Listener) processKeypress(key string) {
 	defer l.bufferMutex.Unlock()
 	l.buffer = append(l.buffer, key)
 	currentText := strings.Join(l.buffer, "")
+	lineBreaks := strings.Count(currentText, "\n")
 
 	if expanded, trigger, ok := l.expander.Expand(currentText); ok {
-		backspaceLen := len(trigger)
+		backspaceLen := len(trigger) + lineBreaks
 		for i := 0; i < backspaceLen; i++ {
 			robotgo.KeyTap("backspace")
 		}

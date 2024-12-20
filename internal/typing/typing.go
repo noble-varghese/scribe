@@ -2,9 +2,10 @@
 package typing
 
 import (
-	"github.com/go-vgo/robotgo"
 	"strings"
 	"time"
+
+	"github.com/go-vgo/robotgo"
 )
 
 type TypingConfig struct {
@@ -27,19 +28,18 @@ var DefaultConfig = TypingConfig{
 
 // TypeWithConfig types text using specified timing configuration
 func TypeWithConfig(text string, config TypingConfig) {
-	robotgo.TypeStr(text)
+	for _, char := range text {
+		robotgo.TypeStr(string(char))
+		time.Sleep(time.Duration(config.CharacterDelay) * time.Millisecond)
+	}
 }
 
 // SafeNewlineWithConfig inserts a newline using configuration
 func SafeNewlineWithConfig(config TypingConfig) {
-	robotgo.KeyToggle("shift", "down")
+
+	robotgo.KeyTap("enter", "shift")
 	time.Sleep(time.Duration(config.ModifierDelay) * time.Millisecond)
 
-	robotgo.KeyTap("enter")
-	time.Sleep(time.Duration(config.ModifierDelay) * time.Millisecond)
-
-	robotgo.KeyToggle("shift", "up")
-	time.Sleep(time.Duration(config.OperationDelay) * time.Millisecond)
 }
 
 // TypeMultilineTextWithConfig types multiline text with specified config

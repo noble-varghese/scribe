@@ -129,6 +129,7 @@ func editConfig() {
 func getExecutablePath() (string, error) {
 	// First try to get the executable path
 	if execPath, err := os.Executable(); err == nil {
+		fmt.Println(execPath)
 		return execPath, nil
 	}
 

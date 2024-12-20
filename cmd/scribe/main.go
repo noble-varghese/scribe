@@ -122,14 +122,40 @@ func editConfig() {
 	}
 }
 
+func getExecutablePath() (string, error) {
+	// First try to get the executable path
+	if execPath, err := os.Executable(); err == nil {
+		return execPath, nil
+	}
+
+	// Fallback: check in common Homebrew locations
+	brewPaths := []string{
+		"/usr/local/bin/scribe",    // Intel Macs
+		"/opt/homebrew/bin/scribe", // Apple Silicon Macs
+	}
+
+	for _, path := range brewPaths {
+		if _, err := os.Stat(path); err == nil {
+			return path, nil
+		}
+	}
+
+	return "", fmt.Errorf("could not find scribe executable")
+}
+
 func startDaemon() {
 	if pid := getPID(); pid != 0 {
 		fmt.Printf("Scribe is already running with PID: %d\n", pid)
 		os.Exit(1)
 	}
 
+	execPath, err := getExecutablePath()
+	if err != nil {
+		log.Fatal("Failed to locate scribe executable:", err)
+	}
+
 	if os.Getppid() != 1 {
-		args := append([]string{os.Args[0]}, os.Args[1:]...)
+		args := append([]string{execPath}, os.Args[1:]...)
 		proc, err := os.StartProcess(os.Args[0], args, &os.ProcAttr{
 			Dir:   ".",
 			Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},

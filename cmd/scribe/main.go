@@ -159,10 +159,15 @@ func startDaemon() {
 		log.Fatal("Failed to locate scribe executable:", err)
 	}
 
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal("Failed to get home directory:", err)
+	}
+
 	if os.Getppid() != 1 {
 		args := append([]string{execPath}, os.Args[1:]...)
 		proc, err := os.StartProcess(os.Args[0], args, &os.ProcAttr{
-			Dir:   ".",
+			Dir:   homeDir,
 			Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
 		})
 

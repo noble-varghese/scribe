@@ -78,7 +78,7 @@ func restartDaemon() {
 	startDaemon()
 }
 
-func editConfig() {
+func setupConfigFile() {
 	configDir := filepath.Dir(configFile)
 	if err := os.MkdirAll(configDir, 0755); err != nil {
 		log.Fatal("Failed to create config directory: ", err)
@@ -93,7 +93,7 @@ func editConfig() {
 
 		newConfig, err := os.Create(configFile)
 		if err != nil {
-			log.Fatal("Failed tp create the config file: ", err)
+			log.Fatal("Failed to create the config file: ", err)
 		}
 		defer newConfig.Close()
 
@@ -102,6 +102,10 @@ func editConfig() {
 		}
 
 	}
+}
+
+func editConfig() {
+	setupConfigFile()
 
 	editor := os.Getenv("EDITOR")
 	if editor == "" {
@@ -171,6 +175,8 @@ func startDaemon() {
 	if err := os.WriteFile(pidFile, []byte(fmt.Sprintf("%d", os.Getpid())), 0644); err != nil {
 		log.Fatal("Could not write PID file:", err)
 	}
+
+	setupConfigFile()
 
 	// Load the configs
 	cfg, err := config.Load(configFile) // TODO: Convert this to a configurable location or constant.
